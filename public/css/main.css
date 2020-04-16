@@ -62,6 +62,11 @@ body{
       width: 300px;
     }
 
+    .logout{
+      background: rgb(63, 135, 148);
+      border: none;
+      margin-top: auto;
+    }
 
     .mobile-nav {
       width: 30rem;
