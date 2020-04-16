@@ -4,6 +4,7 @@ const bodyParser = require('body-parser');
 const mongoose = require('mongoose');
 const session = require('express-session');
 const MongoDBStore = require('connect-mongodb-session')(session);
+const csrf = require('csurf');
 
 const errorController = require('./controllers/error');
 //const mongoConnect = require('./util/database').mongoConnect;
@@ -16,6 +17,14 @@ const store = new MongoDBStore({
     uri: MONGODB_URL,
     collection: 'sessions'
 });
+const csrfProtection = csrf();
+
+app.set('view engine', 'ejs');
+app.set('views', 'views');//not necessary
+
+const adminRoutes = require('./routes/admin.js');
+const shopRoutes = require('./routes/shop');
+const authRoutes = require('./routes/auth'); 
 
 //middlewares
 // parse application/x-www-form-urlencoded
@@ -27,6 +36,7 @@ app.use(session({
     saveUninitialized: false,
     store: store
 }));
+app.use(csrfProtection);
 
 app.use((req, res, next) => {
     if (!req.session.user){
@@ -40,23 +50,12 @@ app.use((req, res, next) => {
         .catch(err => console.log(err));
 });
 
-app.set('view engine', 'ejs');
-app.set('views', 'views');//not necessary
-
-const adminRoutes = require('./routes/admin.js');
-const shopRoutes = require('./routes/shop');
-const authRoutes = require('./routes/auth');
-
-
-
 app.use((req, res, next) => {
-    User.findById('5e972ff927cc134f55b528c7')
-        .then(user => {
-            req.user = user; 
-            next();
-        })
-        .catch(err => console.log(err));
+    res.locals.isAuthenticated = req.session.isLoggedIn;
+    res.locals.csrfToken =  req.csrfToken();
+    next();
 });
+
 
 app.use('/admin', adminRoutes);
 app.use(shopRoutes); 
