@@ -88,39 +88,28 @@ exports.postSignup = (req, res, next) => {
             errorMessage: errors.array()[0].msg
         });
     }
-    User.findOne({email: email})
-    .then(userDoc => {
-        if(userDoc){
-            req.flash('error', 'E-mail exists already, please pick a different one.');
-            return res.redirect('/signup');
-        }
-        //asynchronous task and gives us back a promise so do return
-        return bcrypt
-        .hash(password, 12)
-        .then(hashedPassword => {
-            const user = new User({
-                email: email,
-                password: hashedPassword,
-                cart: { items: [] }
-            });
-            return user.save();
-        })
-        .then(result => {
-            res.redirect('/login');
-            return transporter.sendMail({
-                to: email,
-                from: 'shop@bookshop.com',
-                subject: 'signup succeeded!',
-                html: '<h1>You successfully signed up</h1>'
-            });
-        })
-        .catch(err => {
-            console.log(err);
-        })
+    bcrypt
+    .hash(password, 12)
+    .then(hashedPassword => {
+        const user = new User({
+            email: email,
+            password: hashedPassword,
+            cart: { items: [] }
+        });
+        return user.save();
     })
+    .then(result => {
+        res.redirect('/login');
+        return transporter.sendMail({
+            to: email,
+            from: 'shop@bookshop.com',
+            subject: 'signup succeeded!',
+            html: '<h1>You successfully signed up</h1>'
+        })
     .catch(err => {
-        console.log(err);   
-    });
+        console.log(err);
+    })
+    })
 };
 
 exports.postLogout = (req, res, next) => {
