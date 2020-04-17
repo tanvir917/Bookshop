@@ -37,7 +37,8 @@ body{
     }
     .main-header-item a:hover,
     .main-header-item a:active,
-    .main-header-item a.active{
+    .main-header-item a.active
+    {
         color: white;
     }
     .main-header-item a{
@@ -99,7 +100,8 @@ body{
       padding: 0;
     }
     
-    .mobile-nav-item a {
+    .mobile-nav-item a 
+    .mobile-nav-item button{
       text-decoration: none;
       color: black;
       font-size: 1.5rem;
@@ -108,7 +110,9 @@ body{
     
     .mobile-nav-item a:active,
     .mobile-nav-item a:hover,
-    .mobile-nav-item a.active {
+    .mobile-nav-item a.active,
+    .mobile-nav-item button:hover,
+.mobile-nav-item button:active  {
       background: #00695c;
       color: white;
       border-radius: 3px;
@@ -248,6 +252,17 @@ body{
         background-color: #00695c;
         color: white;
       }
+
+      .btn.danger {
+        color: red;
+        border-color: red;
+      }
+      
+      .btn.danger:hover,
+      .btn.danger:active {
+        background: red;
+        color: white;
+      }
       
       .user-message {
         margin: auto;
@@ -256,6 +271,7 @@ body{
         padding: 1rem;
         border-radius: 3px;
         background: #b4c2f1;
+        text-align: center;
       }
       .user-message-error {
         color: red;
