@@ -9,8 +9,7 @@ exports.getProducts = (req, res, next)=>{
         res.render('shop/product-list', {
             prods: products, 
             pageTitle: 'All Products', 
-            path: '/products', 
-            isAuthenticated: req.session.isLoggedIn
+            path: '/products'
         });
     }).catch(err => {
         console.log(err); 
@@ -30,8 +29,7 @@ exports.getProduct = (req, res, next) => {
                 // key is accessible fro the view 'key: value'
                 product: product,
                 pageTitle: product.title,
-                path: '/products',//to determine which path is active
-                isAuthenticated: req.session.isLoggedIn
+                path: '/products'//to determine which path is active
             });
     })
         .catch(err => console.log(err));
@@ -58,8 +56,7 @@ exports.getCart = (req, res, next) => {
         res.render('shop/cart',{
             pageTitle: 'Your Cart',
             path: '/cart',
-            products: products, 
-            isAuthenticated: req.session.isLoggedIn
+            products: products
         });
     }).catch(err => console.log(err));
     /*Cart.getCart(cart => {
@@ -171,8 +168,7 @@ exports.getOrders = (req, res, next) => {
             res.render('shop/orders',{
                 pageTitle: 'Your Orders',
                 path: '/orders',
-                orders: orders, 
-                isAuthenticated: req.session.isLoggedIn
+                orders: orders
             })
         })
         .catch(err => console.log(err));
