@@ -133,7 +133,7 @@ exports.postEditProduct = (req, res, next) => {
     console.log('from admin product id: '+prodId);
     const updatedTitle = req.body.title;
     const updatedPrice = req.body.price;
-    const updatedImageUrl = req.body.imageUrl;
+    const image = req.file;
     const updatedDesc = req.body.description;
 
     const errors = validationResult(req);
@@ -146,7 +146,6 @@ exports.postEditProduct = (req, res, next) => {
             hasError: true,
             product: {
                 title: updatedTitle,
-                imageUrl: updatedImageUrl,
                 price: updatedPrice,
                 description: updatedDesc,
                 _id: prodId
@@ -164,9 +163,12 @@ exports.postEditProduct = (req, res, next) => {
         product.title = updatedTitle;
         product.price = updatedPrice;
         product.description = updatedDesc;
-        product.imageUrl = updatedImageUrl;
+        if(image) {
+            product.imageUrl = image.path;
+        }
+        
         return product.save()
-        .then(result => {
+        .then(result => { 
             console.log('Updated Product');
             res.redirect('/admin/products');
         });
