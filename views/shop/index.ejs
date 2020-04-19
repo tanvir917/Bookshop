@@ -24,11 +24,19 @@
                             <a href="/products/<%= product._id %> " class="btn">Details</a>
                             <% if (isAuthenticated) { %> 
                                 <%- include('../includes/add-to-cart', {product: product}) %> 
-                            <% } %> 
+                             <% } %> 
                         </div>
                     </article>
                 <% } %>
             </div>
+            <%- include('../includes/pagination', {
+                currentPage: currentPage,
+                previousPage: previousPage,
+                nextPage: nextPage,
+                lastPage: lastPage,
+                hasNextPage: hasNextPage,
+                hasPreviousPage: hasPreviousPage
+            }) %>
         <% } else { %>
             <h1>No Product Found!</h1>
         <% } %>

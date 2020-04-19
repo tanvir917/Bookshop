@@ -201,7 +201,7 @@ body{
       
       .card {
         box-shadow: 0 2px 8px rgba(0, 0, 0, 0.26);
-        height: 550px;
+        height: 500px;
         width: 300px;
       }
       
@@ -278,6 +278,29 @@ body{
         border-color: red;
         background: rgb(223, 176, 176);
       }
+
+      .pagination{
+        margin-top: 2rem;
+        text-align: center; 
+      }
+
+      .pagination a:hover,
+      .pagination a:active,
+      .pagination a.active{
+        background: #00695c;
+        color: white;
+      }
+
+
+.pagination a{
+  text-decoration: none;
+  color: #00695c;
+  padding: .5rem;
+  border: 1px solid #00695c;
+  margin: 0 1rem;
+}
+
+
 
       @media (min-width: 768px) {
         .main-header-nav {
