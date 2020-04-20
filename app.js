@@ -9,6 +9,8 @@ const flash = require('connect-flash');
 const multer = require('multer');
 
 const errorController = require('./controllers/error');
+const shopController = require('./controllers/shop');
+const isAuth = require('./middleware/is-auth');
 //const mongoConnect = require('./util/database').mongoConnect;
 const User  = require('./models/user');
 const MONGODB_URL = 'mongodb+srv://tanvir:00000000@cluster0-bewo2.mongodb.net/shop';
@@ -63,12 +65,11 @@ app.use(session({
     saveUninitialized: false,
     store: store
 }));
-app.use(csrfProtection); 
+
 app.use(flash());
 
 app.use((req, res, next) => {
     res.locals.isAuthenticated = req.session.isLoggedIn;
-    res.locals.csrfToken =  req.csrfToken();
     next();
 });
 
@@ -91,10 +92,18 @@ app.use((req, res, next) => {
         });
 });
 
+app.post('/create-order', isAuth, shopController.postOrder);
+ 
+app.use(csrfProtection); 
+app.use((req, res, next) => {
+    res.locals.csrfToken =  req.csrfToken();
+    next();
+});
+
 app.use('/admin', adminRoutes);
 app.use(shopRoutes); 
 app.use(authRoutes);
-app.get('/500', errorController.get500)
+app.get('/500', errorController.get500);
 
 app.use(errorController.get404);
 
